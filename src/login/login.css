@@ -1,0 +1,89 @@
+.form {
+    border-radius: 1px;
+    width: 55%;
+    border: 1px solid #eee;
+    margin: 0 auto;
+    height: 150px;
+}
+
+.form__form {
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    padding: 45px 10px;
+}
+
+.form__form label{
+    font-size: 1.2rem;
+    line-height: 2rem;
+    text-align: left !important;
+    font-weight: 400;
+    display: inline-block;
+    color: #0C0C0C !important;
+}
+
+.form__form input {
+    background-color: #FFFFFF;
+    border-color: #737479;
+    color: #323241;
+    display: inline-block;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0 0;
+    padding: 0.1rem 0.1rem;
+    border-radius: 0.1rem;
+}
+
+.form__form button {
+    background-color: #177EEC;
+    border: 1px solid #177EEC;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Graphik,-apple-system,system-ui,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+    font-size: 14px;
+    line-height: 1.15;
+    overflow: visible;
+    padding: 6px 12px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transition: all 80ms ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 140px;
+    height: 35px;
+    margin: 0 5px;
+  
+}
+
+
+.form__form span {
+    color: #333;
+    text-transform: capitalize;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 25px;
+    width: 70px;
+    display: inline-block;
+}
+
+.form__form label {
+    margin-bottom: 15px;
+}
+
+.banner {
+    background: #d7d7d7;
+    color: #333;
+    font-weight: bold;
+    vertical-align: middle;
+    padding: 5px 0px;
+    height: 35px;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,13 @@
+.nav {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 50px;
+    border-bottom: 1px solid #eeecec;
+}
+
+.nav__logo {
+    color: "#444";
+    font-size: 20px;
+    font-weight: bold;
+}
