@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { instance } from "../utilities/config.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./Todo.css";
 
 function Todo() {
-    const [todoList, setTodoList] = useState([
-        {id: 1, name: "life", isComplete: true},
-        {id: 2, name: "dreams", isComplete: false}
-    ]);
+    const [todoList, setTodoList] = useState([]);
     const [toId, setToId] = useState(null);
 
     let navigate = useNavigate();
 
     useEffect( () => {
-        getTodos();
-        
+        getTodos();        
     }, [])
 
     const getTodos = () => {
@@ -31,26 +29,7 @@ function Todo() {
         .catch((error) => { console.error(error); })
     }
 
-    const getTodo = (id) => {
-        return instance.post(`/todos/${id}`, {})
-        .then((response) => { 
-         })
-        .catch((error) => { console.error(error); })
-    }
 
-    const createTodo = (title, is_complete) => {
-        return instance.post('/todos/create', {title, is_complete})
-        .then((response) => { 
-         })
-        .catch((error) => { console.error(error); })
-    }
-
-    const updateTodo = (id, title, is_complete) => {
-        return instance.post(`/todos/${id}`, {title, is_complete, params: {id}})
-        .then((response) => { 
-         })
-        .catch((error) => { console.error(error); })
-    }
 
     const deleteTodo = (id) => {
         return instance.delete(`/todos/${id}`, 
@@ -61,22 +40,18 @@ function Todo() {
         })
         .then((response) => { 
             console.log(response);
+            toast.success("Deleted Successfully");
             getTodos();
          })
-        .catch((error) => { console.error(error); })
+        .catch((error) => { 
+            console.error(error);
+            toast.error("Something went wrong!")
+        })
     }
 
     const redirectToUpdate = (id) => {
         console.log(id);
         setToId(id);
-        // <Navigate to={{ pathname: `/todos/${id}` }} />
-    }
-
-    const triggerComplete = (id) => {
-        let tempIndex = todoList.findIndex(todo => todo.todo_id === id);
-        let newTodos = [...todoList];
-        newTodos[tempIndex].is_complete = !newTodos[tempIndex].is_complete;
-        setTodoList(newTodos);
     }
 
     return (
@@ -97,13 +72,17 @@ function Todo() {
                                 
                     <div className="todo_container">
                         {
+
+                            todoList.length === 0 ? <div style={{textAlign: "center",
+                                marginTop: "60px" }}>No Todo's, Create Some!</div>
+                            :
                             todoList.map(todo => (
-                                <div className="todo-list" key={todo.id}>
+                                <div className="todo-list" key={todo.todo_id}>
                                     <div className="id">{todo.todo_id}</div>
                                     <div className="title">{todo.title}</div>
                                     <div className="is_complete">
                                     <label>
-                                    <input className="checkbox" type="checkbox" value={todo.is_complete} checked={todo.is_complete} name="is_complete"/>
+                                    <input className="checkbox" type="checkbox" readOnly={true} value={todo.is_complete} checked={todo.is_complete} name="is_complete"/>
                                     </label>
                                         {/* { todo.is_complete ? <div onClick={() => triggerComplete(todo.todo_id)}>*</div> : <div onClick={() => triggerComplete(todo.todo_id)}>-</div> } */}
                                         </div>
@@ -113,11 +92,11 @@ function Todo() {
                                     </div>
                                 </div>
                             ))
-
                         }
                     </div>
                 </div>
             }
+             <ToastContainer />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import RegisterForm from "./RegisterForm.js";
 
 function Register() {

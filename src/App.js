@@ -1,12 +1,11 @@
 import './App.css';
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./login/Login";
 import Register from "./register/Register";
 import Todo from "./todo/Todo";
 import TodoItem from "./todo/TodoItem";
 import CreateTodo from './todo/CreateTodo';
 import Nav from './nav/Nav';
-import PrivateRoute from './utilities/PrivateRoute.js';
 
 function App() {
   return (

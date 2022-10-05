@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from "react";
-import {Link, Navigate} from 'react-router-dom';
+import React, { useState } from "react";
+import {useNavigate} from 'react-router-dom';
 import { instance } from "../utilities/config.js";
 import "./login.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function LoginForm() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    useEffect(() => {
-
-        if (isAuthenticated) {
-
-        }
-
-    }, [])
+    let navigate = useNavigate();
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -32,7 +28,14 @@ function LoginForm() {
             localStorage.setItem('token', response.data.data.token );
             setIsAuthenticated(true);
          })
-        .catch((error) => { console.error(error); })
+        .catch((error) => { 
+            console.error(error); 
+            if(error.response.status === 400) {
+                toast.error("Please enter a valid Email or Password")
+            } else {
+                toast.error("Something went wrong!")
+            }
+        })
     }
 
     const onChange = (e) => {
@@ -46,7 +49,8 @@ function LoginForm() {
     return (
         <div className="form">
             { isAuthenticated ?
-                <Navigate to={{pathname: '/todos'}}/>
+            navigate("/todos")
+                // <Navigate to={{pathname: '/todos'}}/>
                 :  
                 <form className="form__form" onSubmit={onSubmit}>
                     <label>
@@ -64,6 +68,7 @@ function LoginForm() {
                     </div>
                 </form> 
             }
+    <ToastContainer />
         </div>
     )
 }

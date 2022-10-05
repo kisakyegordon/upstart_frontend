@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { instance } from "../utilities/config.js";
 import { useParams} from "react-router";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Todo.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function TodoItem(props, {todoItemId}) {
+function TodoItem() {
     const [todoItem, setTodoItem] = useState({});
-    const [title, setTitle] = useState("");
-    const [is_complete, setIsComplete] = useState(false);
 
     let navigate = useNavigate();
 
     let {id} = useParams();
 
     useEffect( () => {
-        // let {id} = useParams();
         console.log("props", id)
 
         getTodo(id);
         
-    }, [todoItemId])
-
-
+    }, [id])
 
     const getTodo = (id) => {
         return instance.get(`/todos/${id}`, 
@@ -43,7 +40,6 @@ function TodoItem(props, {todoItemId}) {
                 return { ...prev, title: e.target.value };
             });
         } else if(e.target.name === "is_complete") {
-            // setIsComplete(!is_complete);
             setTodoItem(prev => {
                 return {...prev, is_complete: !prev.is_complete};
             });
@@ -51,18 +47,10 @@ function TodoItem(props, {todoItemId}) {
     }
 
     const onSubmit = (event) => {
-        // let todoItemId = this.props.match.params.id;
         event.preventDefault();
         console.log("update: ", todoItem);
         updateTodo(todoItem.todo_id, todoItem.title, todoItem.is_complete);
     }
-
-    // const createTodo = (title, is_complete) => {
-    //     return instance.post('/todos/create', {title, is_complete})
-    //     .then((response) => { 
-    //      })
-    //     .catch((error) => { console.error(error); })
-    // }
 
     const updateTodo = (id, title, is_complete) => {
         return instance.patch(`/todos/${id}`, {title, is_complete, params: {id}},
@@ -73,44 +61,17 @@ function TodoItem(props, {todoItemId}) {
         })
         .then((response) => { 
             console.log(response);
+            toast.success("Updated Successfully");
          })
-        .catch((error) => { console.error(error); })
-    }
-
-    // const deleteTodo = (id) => {
-    //     return instance.post(`/todos/${id}`, {})
-    //     .then((response) => { 
-    //      })
-    //     .catch((error) => { console.error(error); })
-    // }
-
-    // const triggerComplete = (id) => {
-    //     let tempIndex = todoList.findIndex(todo => todo.id === id);
-    //     let newTodos = [...todoList];
-    //     newTodos[tempIndex].isComplete = !newTodos[tempIndex].isComplete;
-    //     setTodoList(newTodos);
-    // }
-    const handleBack = () => {
-        console.log("Back");
-        // this.props.history.goBack();
+        .catch((error) => { 
+            console.error(error);
+            toast.error("Something went wrong!")
+        })
     }
 
 
     return (
         <div>
-            {
-                // todoList.map(todo => (
-                // <div key={todoItem.id}>
-                //     <div>{ todoItem.is_complete ? <div onClick={() => triggerComplete(todoItem.id)}>*</div> : <div onClick={() => triggerComplete(todoItem.id)}>-</div> }</div>
-                //     <div>{ todoItem.id }</div>
-                //     <div>{ todoItem.name }</div>
-                //     <div> 
-                //         <button onClick={() => updateTodo(todoItem.id)}>update</button>
-                //         <button onClick={() => deleteTodo(todoItem.id)}>delete</button>
-                //     </div>
-                // </div>
-                // ))
-            }
             <div className="todo_header">
                 <div className="todo_header_inside">
                 <div className="todo_header_buttons" onClick={() => navigate("/todos")}>{"Back To Lists"}</div>
@@ -140,6 +101,7 @@ function TodoItem(props, {todoItemId}) {
                     </div>
                 </div>
             </form>  
+            <ToastContainer />
         </div>
     )
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { instance } from "../utilities/config.js";
 import "./Todo.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreateTodo(props, {todoItemId}) {
-    const [todoItem, setTodoItem] = useState({});
     const [title, setTitle] = useState("");
     const [is_complete, setIsComplete] = useState(false);
 
@@ -32,7 +33,6 @@ function CreateTodo(props, {todoItemId}) {
     }
 
     const onSubmit = (event) => {
-        // let todoItemId = this.props.match.params.id;
         event.preventDefault();
         setTitle("");
         setIsComplete(false);
@@ -49,13 +49,13 @@ function CreateTodo(props, {todoItemId}) {
         })
         .then((response) => { 
             console.log("Created", response)
+            toast.success("Created Succesfully");
          })
-        .catch((error) => { console.error("sorry: ", error); })
+        .catch((error) => { 
+            console.error("sorry: ", error); 
+            toast.error("Something went wrong!")
+        })
     }
-
-    const handleBack = () => <Navigate to={{
-        pathname: '/todos',
-      }} />
 
 
     return (
@@ -89,6 +89,7 @@ function CreateTodo(props, {todoItemId}) {
                     </div>
                 </div>
             </form>  
+            <ToastContainer />
         </div>
     )
 

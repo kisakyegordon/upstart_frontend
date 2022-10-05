@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {Link, Navigate} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { instance } from "../utilities/config.js";
@@ -7,15 +6,10 @@ import { instance } from "../utilities/config.js";
 function RegisterForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [account, setAccount] = useState(false);
 
     useEffect(() => {
 
     }, [])
-
-    const notify = () => toast("User Registered");
-
-    const redirect = () => <Navigate to={{pathname: '/login'}}/>;
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -23,6 +17,7 @@ function RegisterForm() {
         // {() => <Navigate to={{pathname: '/login'}}/>}
         // <Navigate to={{pathname: '/login'}}/>
         // <Redirect to="/login" />
+        console.log("submit: ", email, password);
         register(email, password);
     }
 
